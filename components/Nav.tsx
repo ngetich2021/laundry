@@ -65,7 +65,7 @@ export default function Nav() {
       {isOpen && (
         <div className="fixed inset-0 bg-opacity-50 z-50 md:hidden">
           <div
-            className="fixed right-0 top-20 h-fit w-fit bg-green-400 shadow-2xl p-6 flex flex-col"
+            className="fixed right-0 top-20 h-fit w-fit bg-blue-400 shadow-2xl p-6 flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <button
