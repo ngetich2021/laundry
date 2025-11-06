@@ -1,10 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar, Truck, Sparkles, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Book from './Book'; // Your modal component
 
 export default function Working() {
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+
   const steps = [
     {
       icon: Calendar,
@@ -21,9 +24,9 @@ export default function Working() {
           <motion.div
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="absolute -top-1 -right-1 w-5 h-5 bg-yellow-300 rounded-full shadow-sm"
+            className="absolute -top-1 -right-1 w-5 h-5 bg-yellow-300 rounded-full shadow-sm flex items-center justify-center"
           >
-            <span className="text-xs">Fast</span>
+            <span className="text-xs font-bold">Fast</span>
           </motion.div>
         </div>
       )
@@ -114,67 +117,78 @@ export default function Working() {
   ];
 
   return (
-    <div className="py-8 px-4 sm:px-6">
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-8"
-        >
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-            How It <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500">Works</span>
-          </h2>
-          <p className="text-sm text-gray-600 mt-1">4 simple steps to fresh laundry</p>
-        </motion.div>
+    <>
+      <div className="py-8 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8"
+          >
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+              How It <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500">Works</span>
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">4 simple steps to fresh laundry</p>
+          </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {steps.map((step, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {steps.map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group"
+              >
+                <div className={`bg-white rounded-2xl p-5 border ${step.border} hover:shadow-lg transition-all duration-300 h-full flex flex-col items-center text-center space-y-3`}>
+                  <div className="mb-2">
+                    {step.cartoon}
+                  </div>
+                  <div className={`w-7 h-7 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-xs font-bold shadow-sm`}>
+                    {index + 1}
+                  </div>
+                  <h3 className="font-semibold text-gray-800 text-sm sm:text-base">{step.title}</h3>
+                  <p className="text-xs text-gray-500 leading-tight">{step.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Book Now Button – Opens Modal */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-10 text-center"
+          >
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-pink-500 text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 overflow-hidden"
             >
-              <div className={`bg-white rounded-2xl p-5 border ${step.border} hover:shadow-lg transition-all duration-300 h-full flex flex-col items-center text-center space-y-3`}>
-                <div className="mb-2">
-                  {step.cartoon}
-                </div>
-                <div className={`w-7 h-7 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white text-xs font-bold shadow-sm`}>
-                  {index + 1}
-                </div>
-                <h3 className="font-semibold text-gray-800 text-sm sm:text-base">{step.title}</h3>
-                <p className="text-xs text-gray-500 leading-tight">{step.description}</p>
-              </div>
-            </motion.div>
-          ))}
+              <span className="relative z-10 flex items-center gap-2">
+                <Calendar className="w-5 h-5" />
+                Book Now
+              </span>
+              <motion.div
+                className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"
+                initial={false}
+              />
+              <motion.div
+                animate={{ x: [-4, 4, -4] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-8 bg-white/30 rounded-full blur-md"
+              />
+            </button>
+          </motion.div>
         </div>
-
-        {/* Book Now Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-10 text-center"
-        >
-          <button className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-pink-500 text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
-            <span className="relative z-10 flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              Book Now
-            </span>
-            <motion.div
-              className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"
-              initial={false}
-            />
-            <motion.div
-              animate={{ x: [-4, 4, -4] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-8 bg-white/30 rounded-full blur-md"
-            />
-          </button>
-        </motion.div>
       </div>
-    </div>
+
+      {/* Book Modal */}
+      <Book
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
   );
 }

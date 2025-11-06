@@ -11,21 +11,21 @@ export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/locations", label: "Our Locations" },
-    { href: "/services", label: "Our Services" },
-    { href: "/contact", label: "Contact Us" },
-    { href: "/pricing", label: "Our Pricing" },
+    { href: "/#home",      label: "Home",          key: "home" },
+    { href: "/#footer",    label: "Our Locations", key: "locations" },
+    { href: "/#work",      label: "Our Services",  key: "services" },
+    { href: "/#footer",    label: "Contact Us",    key: "contact" },
+    { href: "/#pricing",   label: "Our Pricing",   key: "pricing" },
   ];
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-            {/* logo */}          
+          {/* logo */}          
           <div className="relative flex items-center h-16 w-32">
-            <Link href={'/'}>
-            <Image src={'/logo.jpeg'} alt="" fill/>
+            <Link href="/#home">
+              <Image src="/logo.jpeg" alt="Logo" fill className="object-contain" />
             </Link>
           </div>
 
@@ -33,7 +33,7 @@ export default function Nav() {
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
               <Link
-                key={link.href}
+                key={link.key}   
                 href={link.href}
                 className="text-gray-700 hover:text-indigo-600 transition-colors duration-200 font-bold"
               >
@@ -61,14 +61,13 @@ export default function Nav() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay - exactly your original green one */}
       {isOpen && (
         <div className="fixed inset-0 bg-opacity-50 z-50 md:hidden">
           <div
             className="fixed right-0 top-20 h-fit w-fit bg-green-400 shadow-2xl p-6 flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-5 right-5 text-gray-600 hover:text-gray-900 transition"
@@ -77,11 +76,10 @@ export default function Nav() {
               <IoCloseSharp size={28} />
             </button>
 
-            {/* Mobile Links */}
             <div className="mt-16 flex flex-col gap-6">
               {navLinks.map((link) => (
                 <Link
-                  key={link.href}
+                  key={link.key}   
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className="text-xl text-white font-bold capitalize hover:text-indigo-600 transition-colors"
