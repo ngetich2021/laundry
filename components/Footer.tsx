@@ -89,7 +89,7 @@ export default function Footer() {
           <div className="mt-6 space-y-3 text-sm">
             <p className="flex items-center gap-2">
               <FaPhone className="text-yellow-500" />
-              <a href="tel:+254700000000" className="hover:text-yellow-400">+254 700 000 000</a>
+              <a href="tel:+254700000000" className="hover:text-yellow-400">+254 743 180 071</a>
             </p>
             <p className="flex items-center gap-2">
               <FaEnvelope className="text-yellow-500" />

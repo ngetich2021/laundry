@@ -9,6 +9,7 @@ import Image from "next/image";
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
+  const phoneNumber = "0743180071";
 
   const navLinks = [
     { href: "/#home",      label: "Home",          key: "home" },
@@ -40,16 +41,22 @@ export default function Nav() {
                 {link.label}
               </Link>
             ))}
-            <button className="flex cursor-pointer gap-2 bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition-colors duration-200 font-semibold shadow-sm">
-              <IoCall size={24} />Call Us Now
-            </button>
+            <a
+              href={`tel:${phoneNumber}`}
+              className="flex cursor-pointer gap-2 bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition-colors duration-200 font-semibold shadow-sm"
+            >
+              <IoCall size={24} /> Call Us Now
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-4">
-            <button className="flex gap-2 bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-indigo-700 transition">
-              <IoCall size={24} />Call Us Now
-            </button>
+            <a
+              href={`tel:${phoneNumber}`}
+              className="flex gap-2 bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-indigo-700 transition"
+            >
+              <IoCall size={24} /> Call Us Now
+            </a>
             <button
               onClick={() => setIsOpen(true)}
               className="text-gray-700 hover:text-indigo-600 transition"
@@ -61,9 +68,9 @@ export default function Nav() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay - exactly your original green one */}
+      {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 bg-opacity-50 z-50 md:hidden">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden">
           <div
             className="fixed right-0 top-20 h-fit w-fit bg-blue-400 shadow-2xl p-6 flex flex-col"
             onClick={(e) => e.stopPropagation()}

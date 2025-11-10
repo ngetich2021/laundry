@@ -18,7 +18,7 @@ export default function Sticky() {
         {/* Primary Floating WhatsApp Icon (Bottom Left) */}
         <div className='fixed left-4 bottom-8 z-50'>
           <a 
-            href="https://wa.me/254712345678" // Replace with your number
+            href="https://wa.me/254743180071" // Replace with your number
             target="_blank" 
             rel="noopener noreferrer"
             title="Chat with us on WhatsApp"
@@ -47,7 +47,7 @@ export default function Sticky() {
 
           {/* WhatsApp Icon */}
           <a 
-            href="https://wa.me/254712345678" // Replace with your number
+            href="https://wa.me/254743180071" // Replace with your number
             target="_blank" 
             rel="noopener noreferrer"
             title="WhatsApp Chat"
@@ -60,7 +60,7 @@ export default function Sticky() {
 
           {/* Phone Call Icon */}
           <a 
-            href="tel:+254712345678" // Replace with your number
+            href="tel:+254743180071" // Replace with your number
             title="Call us"
           >
             <IoCall 
