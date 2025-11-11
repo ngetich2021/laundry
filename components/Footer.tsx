@@ -139,7 +139,7 @@ export default function Footer() {
               <FaInstagram />
             </a>
             <a
-              href="https://www.facebook.com/share/1CNjiSvEN3/"
+              href="https://www.facebook.com/profile.php?id=61583850053648"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-yellow-400 transition-colors"
