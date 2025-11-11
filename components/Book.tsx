@@ -179,7 +179,7 @@ export default function Book({ isOpen, onClose }: BookProps) {
           </form>
 
           <p className="mt-6 text-xs text-center text-gray-500">
-            Emails sent securely via EmailJS. No data stored.
+            Emails sent securely via www.royallaundryanddrycleaners.com, data stored.
           </p>
         </div>
       </div>
