@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Package, WashingMachine, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Book from './Book'; // Your modal component
+import Feedback from './Feedback';
 
 export default function Pricing() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
@@ -88,6 +89,9 @@ export default function Pricing() {
             </button>
             <p className="mt-2 text-xs text-gray-500">Same-day pickup available!</p>
           </motion.div>
+        </div>
+        <div>
+          <Feedback/>
         </div>
       </div>
 
