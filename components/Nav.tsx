@@ -70,7 +70,7 @@ export default function Nav() {
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden">
+        <div className="fixed inset-0 z-50 md:hidden">
           <div
             className="fixed right-0 top-20 h-fit w-fit bg-blue-400 shadow-2xl p-6 flex flex-col"
             onClick={(e) => e.stopPropagation()}
