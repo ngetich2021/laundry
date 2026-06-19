@@ -9,7 +9,7 @@ import Image from "next/image";
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
-  const phoneNumber = "0743180071";
+  const phoneNumber = "0790212210";
 
   const navLinks = [
     { href: "/#home",      label: "Home",          key: "home" },

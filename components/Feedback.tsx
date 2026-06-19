@@ -5,7 +5,7 @@ import { Phone, Mail, Star } from 'lucide-react';
 import { SiWhatsapp } from 'react-icons/si';   // Official WhatsApp icon
 import FeedbackForm from './FeedForm';
 
-const phoneNumber = "0743180071";
+const phoneNumber = "0790212210";
 const whatsappLink = `https://wa.me/254${phoneNumber.replace(/^0/, '')}?text=Hi%20Royal%20Laundry!%20I'd%20like%20to%20share%20my%20feedback%20`;
 
 export default function Feedback() {
