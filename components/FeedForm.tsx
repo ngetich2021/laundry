@@ -116,7 +116,8 @@ export default function FeedbackForm({ isOpen, onClose }: FeedbackFormProps) {
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition"
+            disabled={isSubmitting}
+            className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Close modal"
           >
             <X className="w-6 h-6 text-gray-500" />

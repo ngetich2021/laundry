@@ -92,7 +92,8 @@ export default function Book({ isOpen, onClose }: BookProps) {
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition"
+            disabled={isSubmitting}
+            className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Close"
           >
             <X className="w-5 h-5 text-gray-600" />

@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Staff/Admin Dashboard
+
+Alongside the public marketing site (`app/(site)/`), this repo includes an internal dashboard at `/admin` for running retention/CRM operations: clients, retention billing, campaign targets, ad spend, site-visit analytics, loyalty punch cards, referral rewards, daily reports, and role/permission management.
+
+- **Database**: Prisma + Turso (libsql). The app connects to Turso at runtime via the driver adapter in `lib/prisma.ts`. The `DATABASE_URL` env var (a local `file:./prisma/dev.db`, gitignored) is only used by the Prisma CLI to author migrations — it is never used at runtime.
+- **Making a schema change**: edit `prisma/schema.prisma`, run `npx prisma migrate dev --name <change>` (applies to the local file and generates SQL under `prisma/migrations/`), then apply that same SQL to Turso with `node scripts/apply-migration.mjs prisma/migrations/<folder>/migration.sql`.
+- **Seeding**: `npx prisma db seed` creates the fixed permission list, the `Admin`/`Manager`/`Seller` roles, and allowlists the first admin email (see `prisma/seed.ts`).
+- **Auth**: Auth.js v5 (Google provider only) gated by an `AllowedEmail` allowlist — only invited emails can sign in. Admins manage invites and roles at `/admin/settings/users` and `/admin/settings/roles`.
+
 ## Getting Started
 
 First, run the development server:

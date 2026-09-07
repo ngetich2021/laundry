@@ -1,0 +1,325 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// NOTE: this url is only used by the Prisma CLI (migrate/db push) to author
+// migrations against a local SQLite file. The running app connects to Turso
+// at runtime via the libsql driver adapter configured in lib/prisma.ts.
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Auth / RBAC ----------
+
+model Role {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  isSystem    Boolean          @default(false)
+  permissions RolePermission[]
+  users       User[]
+  allowedEmails AllowedEmail[]
+  createdAt   DateTime         @default(now())
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  key         String           @unique
+  group       String
+  description String?
+  roles       RolePermission[]
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model AllowedEmail {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  roleId        String
+  role          Role     @relation(fields: [roleId], references: [id])
+  note          String?
+  invitedById   String?
+  createdAt     DateTime @default(now())
+}
+
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String?
+  image       String?
+  roleId      String?
+  role        Role?     @relation(fields: [roleId], references: [id])
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  clientsCreated        Client[]            @relation("ClientCreatedBy")
+  retentionAccounts     RetentionAccount[]  @relation("RetentionCreatedBy")
+  campaigns             Campaign[]          @relation("CampaignCreatedBy")
+  campaignAchievements  CampaignAchievement[] @relation("AchievementRecordedBy")
+  adCampaigns           AdCampaign[]        @relation("AdCreatedBy")
+  loyaltyPunches        LoyaltyPunch[]      @relation("PunchRecordedBy")
+  referrals             Referral[]          @relation("ReferralRecordedBy")
+}
+
+// ---------- Client (shared CRM anchor) ----------
+
+model Client {
+  id           String   @id @default(cuid())
+  name         String
+  phone        String   @unique
+  email        String?
+  businessType String?
+  address      String?
+  source       String?
+  notes        String?
+  createdById  String?
+  createdBy    User?    @relation("ClientCreatedBy", fields: [createdById], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  retentionAccounts RetentionAccount[]
+  loyaltyCard       LoyaltyCard?
+  referralsMade     Referral[]         @relation("Referrer")
+  referredAs        Referral[]         @relation("ReferredClient")
+}
+
+// ---------- Retention accounts ----------
+
+enum RetentionPlanType {
+  MONTHLY
+  PAY_AS_YOU_GO
+}
+
+enum RetentionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+}
+
+model RetentionAccount {
+  id                     String            @id @default(cuid())
+  clientId               String
+  client                 Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  planType               RetentionPlanType @default(PAY_AS_YOU_GO)
+  monthlyAmount          Float
+  monthlyDiscountPercent Float             @default(0)
+  startDate              DateTime          @default(now())
+  status                 RetentionStatus   @default(ACTIVE)
+  createdById            String?
+  createdBy              User?             @relation("RetentionCreatedBy", fields: [createdById], references: [id])
+  createdAt              DateTime          @default(now())
+
+  invoices RetentionInvoice[]
+}
+
+model RetentionInvoice {
+  id                  String           @id @default(cuid())
+  retentionAccountId  String
+  retentionAccount    RetentionAccount @relation(fields: [retentionAccountId], references: [id], onDelete: Cascade)
+  periodStart         DateTime
+  periodEnd           DateTime
+  amountDue           Float
+  dueDate             DateTime
+  amountPaid          Float            @default(0)
+  paidAt              DateTime?
+  isEarlyPayment      Boolean          @default(false)
+  createdAt           DateTime         @default(now())
+}
+
+// ---------- Campaign targets ----------
+
+enum CampaignType {
+  FLYER
+  SOCIAL
+  REFERRAL_PUSH
+  OTHER
+}
+
+enum CampaignStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model Campaign {
+  id                String         @id @default(cuid())
+  name              String
+  type              CampaignType   @default(FLYER)
+  targetMetricLabel String
+  targetCount       Int
+  startDate         DateTime
+  endDate           DateTime
+  status            CampaignStatus @default(ACTIVE)
+  notes             String?
+  createdById       String?
+  createdBy         User?          @relation("CampaignCreatedBy", fields: [createdById], references: [id])
+  createdAt         DateTime       @default(now())
+
+  achievements CampaignAchievement[]
+  ads          AdCampaign[]
+}
+
+model CampaignAchievement {
+  id           String   @id @default(cuid())
+  campaignId   String
+  campaign     Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  description  String?
+  achievedAt   DateTime @default(now())
+  recordedById String?
+  recordedBy   User?    @relation("AchievementRecordedBy", fields: [recordedById], references: [id])
+}
+
+// ---------- Ads ----------
+
+enum AdPlatform {
+  FACEBOOK
+  INSTAGRAM
+  TIKTOK
+  LAUNDRY_KE
+  GOOGLE
+  OTHER
+}
+
+model AdCampaign {
+  id             String     @id @default(cuid())
+  platform       AdPlatform
+  name           String
+  amountSpent    Float
+  startDate      DateTime
+  endDate        DateTime
+  notes          String?
+  linkedCampaignId String?
+  linkedCampaign Campaign?  @relation(fields: [linkedCampaignId], references: [id])
+  createdById    String?
+  createdBy      User?      @relation("AdCreatedBy", fields: [createdById], references: [id])
+  createdAt      DateTime   @default(now())
+}
+
+// ---------- Online visits ----------
+
+model SiteVisit {
+  id         String   @id @default(cuid())
+  path       String
+  referrer   String?
+  utmSource  String?
+  utmMedium  String?
+  utmCampaign String?
+  ipHash     String?
+  country    String?
+  city       String?
+  deviceType String?
+  userAgent  String?
+  visitedAt  DateTime @default(now())
+}
+
+// ---------- Loyalty ----------
+
+model LoyaltyCard {
+  id                     String    @id @default(cuid())
+  clientId               String    @unique
+  client                 Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  punchesCount           Int       @default(0)
+  freeWashThreshold      Int       @default(6)
+  totalFreeWashesEarned  Int       @default(0)
+  totalFreeWashesRedeemed Int      @default(0)
+  lastPunchAt            DateTime?
+  createdAt              DateTime  @default(now())
+
+  punches LoyaltyPunch[]
+}
+
+model LoyaltyPunch {
+  id            String      @id @default(cuid())
+  loyaltyCardId String
+  loyaltyCard   LoyaltyCard @relation(fields: [loyaltyCardId], references: [id], onDelete: Cascade)
+  visitDate     DateTime    @default(now())
+  note          String?
+  recordedById  String?
+  recordedBy    User?       @relation("PunchRecordedBy", fields: [recordedById], references: [id])
+  createdAt     DateTime    @default(now())
+}
+
+// ---------- Referrals ----------
+
+enum ReferralStatus {
+  PENDING
+  CONVERTED
+  REWARD_APPLIED
+  EXPIRED
+}
+
+model Referral {
+  id                String         @id @default(cuid())
+  referrerClientId  String?
+  referrerClient    Client?        @relation("Referrer", fields: [referrerClientId], references: [id], onDelete: SetNull)
+  referrerName      String
+  referrerPhone     String
+  referredName      String
+  referredPhone     String
+  referredClientId  String?
+  referredClient    Client?        @relation("ReferredClient", fields: [referredClientId], references: [id])
+  rewardPercent     Float
+  status            ReferralStatus @default(PENDING)
+  appliedToOrderRef String?
+  recordedById      String?
+  recordedBy        User?          @relation("ReferralRecordedBy", fields: [recordedById], references: [id])
+  createdAt         DateTime       @default(now())
+  convertedAt       DateTime?
+  rewardAppliedAt   DateTime?
+
+  @@index([referrerPhone])
+}
+
+// ---------- Public site content (admin-editable) ----------
+
+model HeroSlide {
+  id        String   @id @default(cuid())
+  label     String
+  body      String
+  ctaText   String
+  ctaLink   String?
+  imageUrl  String
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ServiceCategory {
+  id           String             @id @default(cuid())
+  name         String
+  icon         String             @default("Package")
+  displayStyle String             @default("LIST") // "LIST" | "SINGLE"
+  sortOrder    Int                @default(0)
+  items        ServicePriceItem[]
+}
+
+model ServicePriceItem {
+  id         String          @id @default(cuid())
+  categoryId String
+  category   ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  label      String
+  price      Float
+  unit       String?
+  sortOrder  Int             @default(0)
+}
+
+// ---------- Notifications (in-app reminder seam) ----------
+
+model NotificationLog {
+  id         String    @id @default(cuid())
+  type       String
+  clientId   String?
+  message    String
+  dueAt      DateTime
+  resolvedAt DateTime?
+  createdAt  DateTime  @default(now())
+}
