@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
 import { CategoryForm } from "./category-form";
 import { PriceItemPanel, type PriceItemRow } from "./price-item-panel";
 import { createCategory, updateCategory, deleteCategory } from "@/actions/pricing";
@@ -45,6 +46,14 @@ export function PricingTable({ categories }: { categories: CategoryRow[] }) {
     { key: "name", header: "Service", render: (c) => <span className="font-medium">{c.name}</span> },
     { key: "displayStyle", header: "Display", render: (c) => (c.displayStyle === "LIST" ? "Price list" : "Single price") },
     { key: "items", header: "Prices", render: (c) => `${c.items.length} price(s)` },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (c) => (
+        <RowActions onView={() => setSelectedId(c.id)} onDelete={() => onDelete(c.id)} deleteLabel="Delete service" disabled={pending} />
+      ),
+    },
   ];
 
   return (

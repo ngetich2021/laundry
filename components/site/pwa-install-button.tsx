@@ -8,7 +8,13 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
-export default function PwaInstallButton({ className }: { className?: string }) {
+export default function PwaInstallButton({
+  className,
+  iconOnly,
+}: {
+  className?: string;
+  iconOnly?: boolean;
+}) {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
@@ -47,7 +53,7 @@ export default function PwaInstallButton({ className }: { className?: string }) 
       }
     >
       <Download size={18} />
-      <span className="hidden sm:inline">Install App</span>
+      {!iconOnly && <span className="hidden sm:inline">Install App</span>}
     </button>
   );
 }

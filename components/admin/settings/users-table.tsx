@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
 import { inviteUser, changeUserRole, revokeAccess } from "@/actions/users";
 
 export interface InvitedUserRow {
@@ -55,6 +56,7 @@ export function UsersTable({ users, roles }: { users: InvitedUserRow[]; roles: {
   }
 
   function onRevoke(id: string) {
+    if (!confirm("Revoke this user's access? This cannot be undone.")) return;
     startTransition(async () => {
       try {
         await revokeAccess(id);
@@ -71,6 +73,14 @@ export function UsersTable({ users, roles }: { users: InvitedUserRow[]; roles: {
     { key: "email", header: "Email", render: (u) => <span className="font-medium">{u.email}</span> },
     { key: "role", header: "Role", render: (u) => <Badge>{u.role.name}</Badge> },
     { key: "lastLoginAt", header: "Last login", render: (u) => (u.lastLoginAt ? format(new Date(u.lastLoginAt), "d MMM yyyy") : "Never") },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (u) => (
+        <RowActions onView={() => setSelectedId(u.id)} onDelete={() => onRevoke(u.id)} deleteLabel="Revoke access" disabled={pending} />
+      ),
+    },
   ];
 
   return (

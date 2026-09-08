@@ -45,3 +45,9 @@ export async function updateAd(id: string, formData: FormData) {
 
   revalidatePath("/admin/ads");
 }
+
+export async function deleteAd(id: string) {
+  await requirePermission("ads.manage");
+  await prisma.adCampaign.delete({ where: { id } });
+  revalidatePath("/admin/ads");
+}

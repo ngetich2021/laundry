@@ -3,6 +3,7 @@ import { z } from "zod";
 export const campaignSchema = z.object({
   name: z.string().min(2, "Name is required"),
   type: z.enum(["FLYER", "SOCIAL", "REFERRAL_PUSH", "OTHER"]),
+  cadence: z.enum(["ONE_OFF", "DAILY"]).default("ONE_OFF"),
   targetMetricLabel: z.string().min(2, "e.g. 'Salons signed up'"),
   targetCount: z.coerce.number().int().positive("Enter a target"),
   startDate: z.string().min(1, "Required"),

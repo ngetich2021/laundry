@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
 import { RolePermissionsPanel } from "./role-permissions-panel";
 import { createRole, deleteRole } from "@/actions/roles";
 
@@ -45,6 +46,7 @@ export function RolesTable({ roles, allPermissions }: { roles: RoleRow[]; allPer
   }
 
   function onDelete(roleId: string) {
+    if (!confirm("Delete this role? Users assigned to it will need a new role. This cannot be undone.")) return;
     startTransition(async () => {
       try {
         await deleteRole(roleId);
@@ -70,6 +72,19 @@ export function RolesTable({ roles, allPermissions }: { roles: RoleRow[]; allPer
     },
     { key: "description", header: "Description", render: (r) => r.description || "—" },
     { key: "permissions", header: "Permissions", render: (r) => `${r.permissions.length} granted` },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (r) => (
+        <RowActions
+          onView={() => setSelectedId(r.id)}
+          onDelete={!r.isSystem ? () => onDelete(r.id) : undefined}
+          deleteLabel="Delete role"
+          disabled={pending}
+        />
+      ),
+    },
   ];
 
   return (

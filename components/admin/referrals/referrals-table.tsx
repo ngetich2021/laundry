@@ -11,8 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
 import { ReferralForm } from "./referral-form";
-import { convertReferral, applyReward } from "@/actions/referrals";
+import { convertReferral, applyReward, deleteReferral } from "@/actions/referrals";
 
 export interface ReferralRow {
   id: string;
@@ -73,6 +74,20 @@ export function ReferralsTable({
     });
   }
 
+  function onDelete(id: string) {
+    if (!confirm("Delete this referral? This cannot be undone.")) return;
+    startTransition(async () => {
+      try {
+        await deleteReferral(id);
+        toast.success("Referral deleted");
+        router.refresh();
+        setSelectedId(null);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Something went wrong");
+      }
+    });
+  }
+
   const columns: DataTableColumn<ReferralRow>[] = [
     {
       key: "referrer",
@@ -88,6 +103,19 @@ export function ReferralsTable({
     { key: "reward", header: "Reward", render: (r) => `${r.rewardPercent}%` },
     { key: "status", header: "Status", render: (r) => <Badge variant={statusVariant[r.status]}>{r.status.replace("_", " ")}</Badge> },
     { key: "createdAt", header: "Recorded", render: (r) => format(new Date(r.createdAt), "d MMM yyyy") },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (r) => (
+        <RowActions
+          onView={() => setSelectedId(r.id)}
+          onDelete={canManage ? () => onDelete(r.id) : undefined}
+          deleteLabel="Delete referral"
+          disabled={pending}
+        />
+      ),
+    },
   ];
 
   return (
@@ -122,9 +150,12 @@ export function ReferralsTable({
       >
         {selected && (
           <div className="space-y-3">
-            <p className="text-sm">
-              Reward: <span className="font-medium">{selected.rewardPercent}% off referrer&apos;s next order</span>
-            </p>
+            <div className="space-y-1 text-sm">
+              <p><span className="text-muted-foreground">Referrer:</span> {selected.referrerName} ({selected.referrerPhone}){!selected.referrerClient && <Badge className="ml-1.5" variant="outline">external</Badge>}</p>
+              <p><span className="text-muted-foreground">New person:</span> {selected.referredName} ({selected.referredPhone})</p>
+              <p><span className="text-muted-foreground">Reward:</span> {selected.rewardPercent}% off referrer&apos;s next order</p>
+              <p><span className="text-muted-foreground">Recorded:</span> {format(new Date(selected.createdAt), "d MMM yyyy")}</p>
+            </div>
             {canManage && selected.status === "PENDING" && (
               <Button size="sm" className="w-full" onClick={() => onConvert(selected.id)} disabled={pending}>
                 Mark as converted (client signed up)
@@ -143,6 +174,14 @@ export function ReferralsTable({
             )}
             {selected.status === "REWARD_APPLIED" && (
               <p className="text-sm text-muted-foreground">Applied to: {selected.appliedToOrderRef || "—"}</p>
+            )}
+            {canManage && (
+              <>
+                <Separator />
+                <Button variant="destructive" size="sm" className="w-full" onClick={() => onDelete(selected.id)} disabled={pending}>
+                  Delete referral
+                </Button>
+              </>
             )}
           </div>
         )}

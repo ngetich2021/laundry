@@ -5,7 +5,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ERROR_MESSAGES: Record<string, string> = {
-  AccessDenied: "That Google account isn't authorized for the staff dashboard. Ask an admin to invite you.",
+  AccessDenied: "Email not allowed.",
   Configuration: "Sign-in isn't configured correctly. Contact an admin.",
   Default: "Something went wrong signing you in. Please try again.",
 };

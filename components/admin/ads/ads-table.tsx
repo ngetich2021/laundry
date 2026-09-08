@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
 import { AdForm } from "./ad-form";
-import { createAd, updateAd } from "@/actions/ads";
+import { createAd, updateAd, deleteAd } from "@/actions/ads";
 import { adStatus, formatKES } from "@/lib/calc";
 
 export interface AdRow {
@@ -37,9 +40,25 @@ const statusVariant: Record<string, "default" | "secondary" | "outline"> = {
 };
 
 export function AdsTable({ ads, canManage }: { ads: AdRow[]; canManage: boolean }) {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
   const [addOpen, setAddOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = ads.find((a) => a.id === selectedId) ?? null;
+
+  function onDelete(id: string) {
+    if (!confirm("Delete this ad record? This cannot be undone.")) return;
+    startTransition(async () => {
+      try {
+        await deleteAd(id);
+        toast.success("Ad deleted");
+        router.refresh();
+        setSelectedId(null);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Something went wrong");
+      }
+    });
+  }
 
   const columns: DataTableColumn<AdRow>[] = [
     { key: "platform", header: "Platform", render: (a) => PLATFORM_LABEL[a.platform] ?? a.platform },
@@ -57,6 +76,19 @@ export function AdsTable({ ads, canManage }: { ads: AdRow[]; canManage: boolean 
         const status = adStatus(a);
         return <Badge variant={statusVariant[status]}>{status}</Badge>;
       },
+    },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (a) => (
+        <RowActions
+          onView={() => setSelectedId(a.id)}
+          onDelete={canManage ? () => onDelete(a.id) : undefined}
+          deleteLabel="Delete ad"
+          disabled={pending}
+        />
+      ),
     },
   ];
 
@@ -90,17 +122,32 @@ export function AdsTable({ ads, canManage }: { ads: AdRow[]; canManage: boolean 
         title={selected?.name ?? ""}
         description={selected ? PLATFORM_LABEL[selected.platform] : undefined}
       >
-        {selected && canManage && (
-          <AdForm
-            action={(fd) => updateAd(selected.id, fd)}
-            defaultValues={{
-              ...selected,
-              startDate: selected.startDate.slice(0, 10),
-              endDate: selected.endDate.slice(0, 10),
-            }}
-            onSuccess={() => setSelectedId(null)}
-            submitLabel="Save changes"
-          />
+        {selected && (
+          <div className="space-y-3">
+            {canManage ? (
+              <AdForm
+                action={(fd) => updateAd(selected.id, fd)}
+                defaultValues={{
+                  ...selected,
+                  startDate: selected.startDate.slice(0, 10),
+                  endDate: selected.endDate.slice(0, 10),
+                }}
+                onSuccess={() => setSelectedId(null)}
+                submitLabel="Save changes"
+              />
+            ) : (
+              <div className="space-y-1 text-sm">
+                <p><span className="text-muted-foreground">Spend:</span> {formatKES(selected.amountSpent)}</p>
+                <p><span className="text-muted-foreground">Runs:</span> {format(new Date(selected.startDate), "d MMM yyyy")} – {format(new Date(selected.endDate), "d MMM yyyy")}</p>
+                <p><span className="text-muted-foreground">Notes:</span> {selected.notes || "—"}</p>
+              </div>
+            )}
+            {canManage && (
+              <Button variant="destructive" size="sm" className="w-full" onClick={() => onDelete(selected.id)} disabled={pending}>
+                Delete ad
+              </Button>
+            )}
+          </div>
         )}
       </RowDialog>
     </div>

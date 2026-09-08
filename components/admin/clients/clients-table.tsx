@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
 import { ClientForm } from "./client-form";
-import { createClient, updateClient } from "@/actions/clients";
+import { createClient, updateClient, deleteClient } from "@/actions/clients";
 import { formatKES, retentionAccountBalance, loyaltyFreeWashesAvailable } from "@/lib/calc";
 import { format } from "date-fns";
 
@@ -28,9 +31,25 @@ export interface ClientRow {
 }
 
 export function ClientsTable({ clients, canManage }: { clients: ClientRow[]; canManage: boolean }) {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
   const [addOpen, setAddOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = clients.find((c) => c.id === selectedId) ?? null;
+
+  function onDelete(id: string) {
+    if (!confirm("Delete this client? This also removes their retention accounts, invoices, and loyalty card. This cannot be undone.")) return;
+    startTransition(async () => {
+      try {
+        await deleteClient(id);
+        toast.success("Client deleted");
+        router.refresh();
+        setSelectedId(null);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Something went wrong");
+      }
+    });
+  }
 
   const columns: DataTableColumn<ClientRow>[] = [
     { key: "name", header: "Name", render: (c) => <span className="font-medium">{c.name}</span> },
@@ -63,6 +82,19 @@ export function ClientsTable({ clients, canManage }: { clients: ClientRow[]; can
         ),
     },
     { key: "createdAt", header: "Added", render: (c) => format(new Date(c.createdAt), "d MMM yyyy") },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (c) => (
+        <RowActions
+          onView={() => setSelectedId(c.id)}
+          onDelete={canManage ? () => onDelete(c.id) : undefined}
+          deleteLabel="Delete client"
+          disabled={pending}
+        />
+      ),
+    },
   ];
 
   return (
@@ -121,13 +153,18 @@ export function ClientsTable({ clients, canManage }: { clients: ClientRow[]; can
                   onSuccess={() => setSelectedId(null)}
                   submitLabel="Save changes"
                 />
+                <Button variant="destructive" size="sm" className="w-full" onClick={() => onDelete(selected.id)} disabled={pending}>
+                  Delete client
+                </Button>
               </>
             ) : (
               <div className="space-y-1 text-sm">
                 <p><span className="text-muted-foreground">Email:</span> {selected.email || "—"}</p>
                 <p><span className="text-muted-foreground">Business:</span> {selected.businessType || "—"}</p>
                 <p><span className="text-muted-foreground">Address:</span> {selected.address || "—"}</p>
+                <p><span className="text-muted-foreground">Source:</span> {selected.source || "—"}</p>
                 <p><span className="text-muted-foreground">Notes:</span> {selected.notes || "—"}</p>
+                <p><span className="text-muted-foreground">Added:</span> {format(new Date(selected.createdAt), "d MMM yyyy")}</p>
               </div>
             )}
           </div>

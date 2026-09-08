@@ -65,3 +65,9 @@ export async function updateClient(clientId: string, formData: FormData) {
 
   revalidatePath("/admin/clients");
 }
+
+export async function deleteClient(clientId: string) {
+  await requirePermission("clients.manage");
+  await prisma.client.delete({ where: { id: clientId } });
+  revalidatePath("/admin/clients");
+}

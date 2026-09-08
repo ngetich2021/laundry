@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,14 @@ import { AdminNavLinks } from "@/components/admin/nav-links";
 
 export default function AdminMobileNav({ permissions }: { permissions: string[] }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close only once the destination route has actually rendered, so the
+  // AppLink pending overlay inside the sheet has a chance to show instead
+  // of the sheet unmounting it immediately on click.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -29,7 +38,7 @@ export default function AdminMobileNav({ permissions }: { permissions: string[] 
           </div>
           <span className="text-sm font-semibold">Staff Dashboard</span>
         </div>
-        <AdminNavLinks permissions={permissions} onNavigate={() => setOpen(false)} />
+        <AdminNavLinks permissions={permissions} />
       </SheetContent>
     </Sheet>
   );

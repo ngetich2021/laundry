@@ -74,3 +74,9 @@ export async function applyReward(referralId: string, formData: FormData) {
 
   revalidatePath("/admin/referrals");
 }
+
+export async function deleteReferral(referralId: string) {
+  await requirePermission("referrals.manage");
+  await prisma.referral.delete({ where: { id: referralId } });
+  revalidatePath("/admin/referrals");
+}

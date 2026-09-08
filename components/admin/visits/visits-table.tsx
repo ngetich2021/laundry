@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
 
 export interface VisitRow {
   id: string;
@@ -44,6 +45,12 @@ export function VisitsTable({ visits }: { visits: VisitRow[] }) {
     },
     { key: "device", header: "Device", render: (v) => <Badge variant="outline">{v.deviceType ?? "unknown"}</Badge> },
     { key: "time", header: "When", render: (v) => format(new Date(v.visitedAt), "d MMM, HH:mm") },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (v) => <RowActions onView={() => setSelectedId(v.id)} />,
+    },
   ];
 
   return (

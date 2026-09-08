@@ -74,3 +74,10 @@ export async function redeemFreeWash(cardId: string) {
   revalidatePath("/admin/loyalty");
   revalidatePath("/admin/clients");
 }
+
+export async function deleteLoyaltyCard(cardId: string) {
+  await requirePermission("loyalty.manage");
+  await prisma.loyaltyCard.delete({ where: { id: cardId } });
+  revalidatePath("/admin/loyalty");
+  revalidatePath("/admin/clients");
+}

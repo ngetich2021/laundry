@@ -12,9 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
+import { Separator } from "@/components/ui/separator";
 import { TargetProgress } from "@/components/admin/target-progress";
 import { PunchPanel, type PunchRow } from "./punch-panel";
-import { enrollClient } from "@/actions/loyalty";
+import { enrollClient, deleteLoyaltyCard } from "@/actions/loyalty";
 import { loyaltyFreeWashesAvailable, loyaltyPunchesUntilFree } from "@/lib/calc";
 
 export interface LoyaltyCardRow {
@@ -64,6 +66,20 @@ export function LoyaltyTable({
     });
   }
 
+  function onDelete(cardId: string) {
+    if (!confirm("Remove this loyalty card? This cannot be undone.")) return;
+    startTransition(async () => {
+      try {
+        await deleteLoyaltyCard(cardId);
+        toast.success("Loyalty card removed");
+        router.refresh();
+        setSelectedId(null);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Something went wrong");
+      }
+    });
+  }
+
   const columns: DataTableColumn<LoyaltyCardRow>[] = [
     { key: "client", header: "Client", render: (c) => <span className="font-medium">{c.client.name}</span> },
     { key: "phone", header: "Phone", render: (c) => c.client.phone },
@@ -88,6 +104,19 @@ export function LoyaltyTable({
         const until = loyaltyPunchesUntilFree(c);
         return until === 1 ? <Badge variant="secondary">1 away from free wash</Badge> : <span className="text-muted-foreground">{until} to go</span>;
       },
+    },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (c) => (
+        <RowActions
+          onView={() => setSelectedId(c.id)}
+          onDelete={canManage ? () => onDelete(c.id) : undefined}
+          deleteLabel="Remove card"
+          disabled={pending}
+        />
+      ),
     },
   ];
 
@@ -168,15 +197,25 @@ export function LoyaltyTable({
         description={selected?.client.phone}
       >
         {selected && (
-          <PunchPanel
-            clientId={selected.client.id}
-            cardId={selected.id}
-            punchesCount={selected.punchesCount}
-            freeWashThreshold={selected.freeWashThreshold}
-            totalFreeWashesEarned={selected.totalFreeWashesEarned}
-            totalFreeWashesRedeemed={selected.totalFreeWashesRedeemed}
-            punches={selected.punches}
-          />
+          <div className="space-y-3">
+            <PunchPanel
+              clientId={selected.client.id}
+              cardId={selected.id}
+              punchesCount={selected.punchesCount}
+              freeWashThreshold={selected.freeWashThreshold}
+              totalFreeWashesEarned={selected.totalFreeWashesEarned}
+              totalFreeWashesRedeemed={selected.totalFreeWashesRedeemed}
+              punches={selected.punches}
+            />
+            {canManage && (
+              <>
+                <Separator />
+                <Button variant="destructive" size="sm" className="w-full" onClick={() => onDelete(selected.id)} disabled={pending}>
+                  Remove loyalty card
+                </Button>
+              </>
+            )}
+          </div>
         )}
       </RowDialog>
     </div>

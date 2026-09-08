@@ -75,3 +75,10 @@ export async function setRetentionStatus(accountId: string, status: "ACTIVE" | "
   await prisma.retentionAccount.update({ where: { id: accountId }, data: { status } });
   revalidatePath("/admin/retention");
 }
+
+export async function deleteRetentionAccount(accountId: string) {
+  await requirePermission("retention.manage");
+  await prisma.retentionAccount.delete({ where: { id: accountId } });
+  revalidatePath("/admin/retention");
+  revalidatePath("/admin/clients");
+}

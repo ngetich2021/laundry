@@ -15,6 +15,7 @@ export async function createCampaign(formData: FormData) {
     data: {
       name: parsed.data.name,
       type: parsed.data.type,
+      cadence: parsed.data.cadence,
       targetMetricLabel: parsed.data.targetMetricLabel,
       targetCount: parsed.data.targetCount,
       startDate: new Date(parsed.data.startDate),
@@ -24,6 +25,34 @@ export async function createCampaign(formData: FormData) {
     },
   });
 
+  revalidatePath("/admin/targets");
+}
+
+export async function updateCampaign(campaignId: string, formData: FormData) {
+  await requirePermission("targets.manage");
+  const parsed = campaignSchema.safeParse(formDataToObject(formData));
+  if (!parsed.success) throw new Error(parsed.error.issues[0].message);
+
+  await prisma.campaign.update({
+    where: { id: campaignId },
+    data: {
+      name: parsed.data.name,
+      type: parsed.data.type,
+      cadence: parsed.data.cadence,
+      targetMetricLabel: parsed.data.targetMetricLabel,
+      targetCount: parsed.data.targetCount,
+      startDate: new Date(parsed.data.startDate),
+      endDate: new Date(parsed.data.endDate),
+      notes: parsed.data.notes || null,
+    },
+  });
+
+  revalidatePath("/admin/targets");
+}
+
+export async function deleteCampaign(campaignId: string) {
+  await requirePermission("targets.manage");
+  await prisma.campaign.delete({ where: { id: campaignId } });
   revalidatePath("/admin/targets");
 }
 

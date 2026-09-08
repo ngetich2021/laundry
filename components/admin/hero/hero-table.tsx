@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { RowDialog } from "@/components/admin/row-dialog";
+import { RowActions } from "@/components/admin/row-actions";
 import { HeroForm } from "./hero-form";
 import { createHeroSlide, updateHeroSlide, setHeroSlideActive, deleteHeroSlide } from "@/actions/hero";
 
@@ -77,6 +78,19 @@ export function HeroTable({ slides, canManage }: { slides: HeroSlideRow[]; canMa
           disabled={!canManage || pending}
           onCheckedChange={(v) => onToggleActive(s.id, v)}
           onClick={(e) => e.stopPropagation()}
+        />
+      ),
+    },
+    {
+      key: "actions",
+      header: "",
+      className: "w-10",
+      render: (s) => (
+        <RowActions
+          onView={() => setSelectedId(s.id)}
+          onDelete={canManage ? () => onDelete(s.id) : undefined}
+          deleteLabel="Delete slide"
+          disabled={pending}
         />
       ),
     },

@@ -67,6 +67,10 @@ export default function Nav() {
             >
               <IoCall size={24} /> Call Us Now
             </a>
+            <PwaInstallButton
+              iconOnly
+              className="text-gray-700 hover:text-indigo-600 transition"
+            />
             <button
               onClick={() => setIsOpen(true)}
               className="text-gray-700 hover:text-indigo-600 transition"
