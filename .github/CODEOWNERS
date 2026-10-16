@@ -1,0 +1,3 @@
+# Only these owners can approve pull requests into main.
+# Replace the placeholder with the admin GitHub username(s), e.g. @ngetich2021
+* @ngetich2021
