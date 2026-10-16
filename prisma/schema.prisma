@@ -1,5 +1,7 @@
 generator client {
   provider = "prisma-client-js"
+  // Builds run on GitHub Actions (Ubuntu); the host may be RHEL/CentOS-based.
+  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-1.1.x", "rhel-openssl-3.0.x"]
 }
 
 // NOTE: this url is only used by the Prisma CLI (migrate/db push) to author
