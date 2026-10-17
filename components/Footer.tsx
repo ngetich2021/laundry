@@ -73,7 +73,7 @@ export default function Footer() {
             Find Us
           </h3>
           <div className="space-y-3 text-sm">
-            <p className="text-gray-400"> Eldoret to Iten Road
+            <p className="text-gray-400"> Eldoret to Iten,  Road
             Rock centre next to Palmcare Sinai hospital,
             opposite zebra ways plaza</p>
             <a
