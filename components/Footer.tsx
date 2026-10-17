@@ -73,7 +73,9 @@ export default function Footer() {
             Find Us
           </h3>
           <div className="space-y-3 text-sm">
-            <p className="text-gray-400">Eldoret, Kenya</p>
+            <p className="text-gray-400"> Eldoret to Iten,  Road
+            Rock centre next to Palmcare Sinai hospital,
+            opposite zebra ways plaza</p>
             <a
               href="https://maps.google.com/maps?q=0.5411099,35.2982391&z=17&hl=en"
               target="_blank"
