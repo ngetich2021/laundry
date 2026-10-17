@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requirePermission } from "@/lib/permissions";
 import { StatCard } from "@/components/admin/stat-card";
 import { formatKES } from "@/lib/calc";
-import { Users, Wallet, Megaphone, Globe, Gift, Share2, Target } from "lucide-react";
+import { Users, Wallet, Megaphone, Globe, Gift, Share2, Target, ShoppingCart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ReportDateFilter } from "@/components/admin/reports/date-filter";
 
@@ -30,6 +30,7 @@ export default async function ReportsPage({
     visitsToday,
     loyaltyPunchesToday,
     referralsConvertedToday,
+    salesToday,
   ] = await Promise.all([
     prisma.client.count({ where: { createdAt: { gte: start, lte: end } } }),
     prisma.retentionInvoice.findMany({ where: { paidAt: { gte: start, lte: end } }, select: { amountPaid: true } }),
@@ -38,10 +39,16 @@ export default async function ReportsPage({
     prisma.siteVisit.findMany({ where: { visitedAt: { gte: start, lte: end } }, select: { utmSource: true, referrer: true } }),
     prisma.loyaltyPunch.count({ where: { visitDate: { gte: start, lte: end } } }),
     prisma.referral.count({ where: { convertedAt: { gte: start, lte: end } } }),
+    prisma.sale.findMany({
+      where: { createdAt: { gte: start, lte: end }, status: { not: "CANCELLED" } },
+      select: { total: true, amountPaid: true },
+    }),
   ]);
 
   const collected = paidInvoices.reduce((sum, i) => sum + i.amountPaid, 0);
   const adSpendToday = adsRunningToday.reduce((sum, a) => sum + a.amountSpent, 0);
+  const salesRevenueToday = salesToday.reduce((sum, s) => sum + s.total, 0);
+  const salesCollectedToday = salesToday.reduce((sum, s) => sum + s.amountPaid, 0);
 
   const sourceCounts = new Map<string, number>();
   for (const v of visitsToday) {
@@ -61,6 +68,8 @@ export default async function ReportsPage({
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
         <StatCard label="New clients" value={newClients} icon={Users} />
+        <StatCard label="Sales revenue" value={formatKES(salesRevenueToday)} icon={ShoppingCart} hint={`${salesToday.length} sale(s)`} />
+        <StatCard label="Sales collected" value={formatKES(salesCollectedToday)} icon={Wallet} />
         <StatCard label="Retention collected" value={formatKES(collected)} icon={Wallet} />
         <StatCard label="Ad spend (running)" value={formatKES(adSpendToday)} icon={Megaphone} hint={`${adsRunningToday.length} ads running`} />
         <StatCard label="Targets logged" value={achievementsToday} icon={Target} />

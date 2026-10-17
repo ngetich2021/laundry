@@ -121,7 +121,7 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-white mb-3">Follow Us</h3>
           <div className="flex gap-4 text-2xl">
             <a
-              href="https://www.tiktok.com/@royallaundry140"
+              href="https://www.tiktok.com/@royallaundry1"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-yellow-400 transition-colors"
@@ -130,7 +130,7 @@ export default function Footer() {
               <FaTiktok />
             </a>
             <a
-              href="https://www.instagram.com/royallaundry140"
+              href="https://www.instagram.com/royallaundryand"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-yellow-400 transition-colors"
@@ -139,7 +139,7 @@ export default function Footer() {
               <FaInstagram />
             </a>
             <a
-              href="https://www.facebook.com/profile.php?id=61583850053648"
+              href="https://www.facebook.com/share/1HjGELqPzz/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-yellow-400 transition-colors"

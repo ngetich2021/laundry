@@ -1,5 +1,7 @@
 generator client {
   provider = "prisma-client-js"
+  // Builds run on GitHub Actions (Ubuntu); the host may be RHEL/CentOS-based.
+  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-1.1.x", "rhel-openssl-3.0.x"]
 }
 
 // NOTE: this url is only used by the Prisma CLI (migrate/db push) to author
@@ -67,6 +69,8 @@ model User {
   adCampaigns           AdCampaign[]        @relation("AdCreatedBy")
   loyaltyPunches        LoyaltyPunch[]      @relation("PunchRecordedBy")
   referrals             Referral[]          @relation("ReferralRecordedBy")
+  sales                 Sale[]              @relation("SaleSoldBy")
+  invoicesIssued        Invoice[]           @relation("InvoiceCreatedBy")
 }
 
 // ---------- Client (shared CRM anchor) ----------
@@ -89,6 +93,7 @@ model Client {
   loyaltyCard       LoyaltyCard?
   referralsMade     Referral[]         @relation("Referrer")
   referredAs        Referral[]         @relation("ReferredClient")
+  sales             Sale[]
 }
 
 // ---------- Retention accounts ----------
@@ -316,6 +321,63 @@ model ServicePriceItem {
   price      Float
   unit       String?
   sortOrder  Int             @default(0)
+}
+
+// ---------- Sales / POS ----------
+
+enum SaleStatus {
+  UNPAID
+  PARTIALLY_PAID
+  PAID
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  MPESA
+  CARD
+  BANK_TRANSFER
+  OTHER
+}
+
+model Sale {
+  id              String        @id @default(cuid())
+  clientId        String
+  client          Client        @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  subtotal        Float
+  discountPercent Float         @default(0)
+  total           Float
+  amountPaid      Float         @default(0)
+  paymentMethod   PaymentMethod @default(CASH)
+  status          SaleStatus    @default(UNPAID)
+  notes           String?
+  soldById        String
+  soldBy          User          @relation("SaleSoldBy", fields: [soldById], references: [id])
+  createdAt       DateTime      @default(now())
+
+  items   SaleItem[]
+  invoice Invoice?
+}
+
+model SaleItem {
+  id        String @id @default(cuid())
+  saleId    String
+  sale      Sale   @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  label     String
+  unit      String?
+  quantity  Float  @default(1)
+  unitPrice Float
+  lineTotal Float
+}
+
+model Invoice {
+  id          String    @id @default(cuid())
+  saleId      String    @unique
+  sale        Sale      @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  issuedAt    DateTime  @default(now())
+  dueDate     DateTime?
+  createdById String?
+  createdBy   User?     @relation("InvoiceCreatedBy", fields: [createdById], references: [id])
 }
 
 // ---------- Notifications (in-app reminder seam) ----------

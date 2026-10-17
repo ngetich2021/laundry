@@ -110,7 +110,7 @@ export function HeroTable({ slides, canManage }: { slides: HeroSlideRow[]; canMa
         These slides rotate in the hero banner at the top of the public homepage. Only slides marked &quot;Live on site&quot; are shown.
       </p>
 
-      <DataTable columns={columns} data={slides} onRowClick={(row) => setSelectedId(row.id)} emptyMessage="No slides yet." />
+      <DataTable columns={columns} data={slides} onRowClick={(row) => setSelectedId(row.id)} emptyMessage="No slides yet." exportFilename="hero-slides" />
 
       <RowDialog open={addOpen} onOpenChange={setAddOpen} title="New hero slide">
         <HeroForm action={createHeroSlide} onSuccess={() => setAddOpen(false)} submitLabel="Add slide" />

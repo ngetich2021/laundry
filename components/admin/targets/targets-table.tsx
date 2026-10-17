@@ -143,6 +143,7 @@ export function TargetsTable({ campaigns, canManage }: { campaigns: CampaignRow[
 
       <DataTable
         columns={columns}
+        exportFilename="campaign-targets"
         data={campaigns}
         onRowClick={(row) => {
           setEditing(false);

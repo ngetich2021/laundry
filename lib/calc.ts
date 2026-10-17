@@ -83,3 +83,13 @@ export function campaignDailyBreakdown(
 export function formatKES(amount: number) {
   return new Intl.NumberFormat("en-KE", { style: "currency", currency: "KES", maximumFractionDigits: 0 }).format(amount);
 }
+
+export function saleBalance(sale: { total: number; amountPaid: number }) {
+  return Math.max(0, sale.total - sale.amountPaid);
+}
+
+export function saleStatusFromPayment(total: number, amountPaid: number): "UNPAID" | "PARTIALLY_PAID" | "PAID" {
+  if (amountPaid <= 0) return "UNPAID";
+  if (amountPaid >= total) return "PAID";
+  return "PARTIALLY_PAID";
+}

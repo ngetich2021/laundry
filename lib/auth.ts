@@ -1,14 +1,37 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import { decode as defaultDecode } from "next-auth/jwt";
 import { prisma } from "@/lib/prisma";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
   session: { strategy: "jwt" },
   trustHost: true,
+  jwt: {
+    // A cookie encrypted under a since-rotated/changed AUTH_SECRET (or otherwise
+    // corrupted) throws JWEInvalid from the default decode instead of just
+    // meaning "no session". Treat that the same as no session rather than
+    // letting it surface as a noisy JWTSessionError on every request.
+    async decode(params) {
+      try {
+        return await defaultDecode(params);
+      } catch {
+        return null;
+      }
+    },
+  },
   pages: {
     signIn: "/login",
     error: "/login",
+  },
+  logger: {
+    error(error) {
+      // A leftover session cookie that no longer decrypts (rotated AUTH_SECRET,
+      // corrupted value, etc.) is not a real error — Auth.js already falls back
+      // to "no session" for it. Don't spam the server log with it on every request.
+      if (error.name === "JWTSessionError") return;
+      console.error(error);
+    },
   },
   callbacks: {
     async signIn({ user }) {

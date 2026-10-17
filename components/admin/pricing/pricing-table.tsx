@@ -66,7 +66,7 @@ export function PricingTable({ categories }: { categories: CategoryRow[] }) {
       </div>
       <p className="text-sm text-muted-foreground">This is exactly what shows in the &quot;Our Pricing&quot; section of the public site.</p>
 
-      <DataTable columns={columns} data={categories} onRowClick={(row) => setSelectedId(row.id)} emptyMessage="No services priced yet." />
+      <DataTable columns={columns} data={categories} onRowClick={(row) => setSelectedId(row.id)} emptyMessage="No services priced yet." exportFilename="pricing" />
 
       <RowDialog open={addOpen} onOpenChange={setAddOpen} title="New service">
         <CategoryForm action={createCategory} onSuccess={() => setAddOpen(false)} submitLabel="Add service" />
