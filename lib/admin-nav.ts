@@ -12,6 +12,7 @@ import {
   UserCog,
   Image as ImageIcon,
   Tag,
+  ShoppingCart,
   type LucideIcon,
 } from "lucide-react";
 
@@ -25,6 +26,7 @@ export interface AdminNavItem {
 export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, permission: "dashboard.view" },
   { href: "/admin/clients", label: "Clients", icon: Users, permission: "clients.view" },
+  { href: "/admin/sales", label: "Sales", icon: ShoppingCart, permission: "sales.view" },
   { href: "/admin/retention", label: "Retention Accounts", icon: Wallet, permission: "retention.view" },
   { href: "/admin/targets", label: "Campaign Targets", icon: Target, permission: "targets.view" },
   { href: "/admin/ads", label: "Ads", icon: Megaphone, permission: "ads.view" },

@@ -18,7 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           }}
           permissions={session.user.permissions}
         />
-        <main className="flex-1 overflow-y-auto bg-muted/30 p-4 md:p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto bg-muted/30 p-4 md:p-6 print:overflow-visible print:bg-background print:p-0">{children}</main>
       </div>
     </div>
   );

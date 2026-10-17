@@ -121,6 +121,7 @@ export function RetentionTable({
 
       <DataTable
         columns={columns}
+        exportFilename="retention-accounts"
         data={accounts}
         onRowClick={(row) => setSelectedId(row.id)}
         searchPlaceholder="Search by client..."

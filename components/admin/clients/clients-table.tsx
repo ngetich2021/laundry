@@ -110,6 +110,7 @@ export function ClientsTable({ clients, canManage }: { clients: ClientRow[]; can
 
       <DataTable
         columns={columns}
+        exportFilename="clients"
         data={clients}
         onRowClick={(row) => setSelectedId(row.id)}
         searchPlaceholder="Search clients by name or phone..."

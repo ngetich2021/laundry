@@ -92,7 +92,7 @@ export function UsersTable({ users, roles }: { users: InvitedUserRow[]; roles: {
         </Button>
       </div>
 
-      <DataTable columns={columns} data={users} onRowClick={(row) => setSelectedId(row.id)} emptyMessage="No one invited yet." />
+      <DataTable columns={columns} data={users} onRowClick={(row) => setSelectedId(row.id)} emptyMessage="No one invited yet." exportFilename="users" />
 
       <RowDialog open={addOpen} onOpenChange={setAddOpen} title="Invite staff">
         <form action={onInvite} className="space-y-3">

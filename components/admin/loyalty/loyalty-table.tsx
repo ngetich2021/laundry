@@ -149,6 +149,7 @@ export function LoyaltyTable({
 
       <DataTable
         columns={columns}
+        exportFilename="loyalty-cards"
         data={cards}
         onRowClick={(row) => setSelectedId(row.id)}
         searchPlaceholder="Search by client..."

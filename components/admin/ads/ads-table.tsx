@@ -105,6 +105,7 @@ export function AdsTable({ ads, canManage }: { ads: AdRow[]; canManage: boolean 
 
       <DataTable
         columns={columns}
+        exportFilename="ads"
         data={ads}
         onRowClick={(row) => setSelectedId(row.id)}
         searchPlaceholder="Search ads..."

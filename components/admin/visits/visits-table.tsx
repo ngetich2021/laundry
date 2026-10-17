@@ -57,6 +57,7 @@ export function VisitsTable({ visits }: { visits: VisitRow[] }) {
     <div className="space-y-4">
       <DataTable
         columns={columns}
+        exportFilename="site-visits"
         data={visits}
         onRowClick={(row) => setSelectedId(row.id)}
         searchPlaceholder="Search by page or source..."

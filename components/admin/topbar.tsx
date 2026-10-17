@@ -12,7 +12,7 @@ export default function AdminTopbar({
   permissions: string[];
 }) {
   return (
-    <header className="flex h-16 items-center justify-between gap-3 border-b bg-background px-4 md:px-6">
+    <header className="flex h-16 items-center justify-between gap-3 border-b bg-background px-4 md:px-6 print:hidden">
       <div className="flex items-center gap-2">
         <AdminMobileNav permissions={permissions} />
         <div>

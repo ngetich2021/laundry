@@ -12,6 +12,7 @@ export const PERMISSION_GROUPS = [
   "users",
   "hero",
   "pricing",
+  "sales",
 ] as const;
 
 export type PermissionGroup = (typeof PERMISSION_GROUPS)[number];
@@ -56,6 +57,9 @@ export const PERMISSIONS: PermissionDef[] = [
 
   { key: "pricing.view", group: "pricing", label: "View pricing", description: "See the public pricing shown on the website" },
   { key: "pricing.manage", group: "pricing", label: "Manage pricing", description: "Edit the prices shown on the public website" },
+
+  { key: "sales.view", group: "sales", label: "View sales", description: "See sales and invoices" },
+  { key: "sales.manage", group: "sales", label: "Manage sales", description: "Record sales, take payments, and generate invoices" },
 ];
 
 export const DEFAULT_MANAGER_PERMISSION_KEYS = [
@@ -78,6 +82,8 @@ export const DEFAULT_MANAGER_PERMISSION_KEYS = [
   "hero.manage",
   "pricing.view",
   "pricing.manage",
+  "sales.view",
+  "sales.manage",
 ];
 
 export const DEFAULT_SELLER_PERMISSION_KEYS = [
@@ -90,4 +96,6 @@ export const DEFAULT_SELLER_PERMISSION_KEYS = [
   "loyalty.manage",
   "referrals.view",
   "referrals.manage",
+  "sales.view",
+  "sales.manage",
 ];

@@ -96,7 +96,7 @@ export function RolesTable({ roles, allPermissions }: { roles: RoleRow[]; allPer
         </Button>
       </div>
 
-      <DataTable columns={columns} data={roles} onRowClick={(row) => setSelectedId(row.id)} emptyMessage="No roles yet." />
+      <DataTable columns={columns} data={roles} onRowClick={(row) => setSelectedId(row.id)} emptyMessage="No roles yet." exportFilename="roles" />
 
       <RowDialog open={addOpen} onOpenChange={setAddOpen} title="New role">
         <form action={onCreate} className="space-y-3">

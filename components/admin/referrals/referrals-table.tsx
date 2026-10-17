@@ -131,6 +131,7 @@ export function ReferralsTable({
 
       <DataTable
         columns={columns}
+        exportFilename="referrals"
         data={referrals}
         onRowClick={(row) => setSelectedId(row.id)}
         searchPlaceholder="Search referrals..."
