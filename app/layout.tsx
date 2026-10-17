@@ -20,8 +20,8 @@ export const metadata: Metadata = {
   description: "created by kwenik developers",
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/favicon.png",
-    apple: "/icons/apple-touch-icon.png",
+    icon: "/favicon.png?v=2",
+    apple: "/icons/apple-touch-icon.png?v=2",
   },
   appleWebApp: {
     capable: true,
