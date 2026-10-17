@@ -1,31 +1,29 @@
-# Builds the public (site) pages as a static export and uploads them over SFTP.
-# Runs on every push to main, or manually from the Actions tab.
-# Admin, login, API routes and proxy.ts are NOT deployed (frontend only).
+# PR  -> build only (test).  Push/merge to main -> build + upload via SFTP.
+# Frontend only: admin, login, API routes and proxy.ts are not deployed.
 
 name: Deploy static site
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: deploy-production
+  group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  # Folder on the server where the site lives. Change if yours differs.
   REMOTE_DIR: public_html
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
@@ -50,13 +48,15 @@ jobs:
 
       - name: Check export output
         run: |
-          test -f out/index.html || { echo "out/index.html missing - static export failed"; exit 1; }
+          test -f out/index.html || { echo "out/index.html missing"; exit 1; }
           du -sh out
 
       - name: Install lftp
+        if: github.event_name != 'pull_request'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
       - name: Upload to server via SFTP
+        if: github.event_name != 'pull_request'
         env:
           LFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
           SFTP_HOST: ${{ secrets.SFTP_HOST }}
