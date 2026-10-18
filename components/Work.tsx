@@ -33,14 +33,14 @@ export default function Work() {
               </div>
             </motion.div>
 
-            <motion.h1
+            <motion.h2
               initial={{ y: 15, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.1, duration: 0.5 }}
               className="text-4xl md:text-5xl font-black text-white"
             >
               Laundry. Done.
-            </motion.h1>
+            </motion.h2>
 
             <motion.p
               initial={{ y: 10, opacity: 0 }}

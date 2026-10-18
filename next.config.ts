@@ -1,20 +1,12 @@
 import type { NextConfig } from "next";
 
-const isStatic = process.env.STATIC_EXPORT === "1";
-
+// Fully static website: `npm run build` writes plain HTML/CSS/JS to /out,
+// which the GitHub Action uploads to the server. No Node server, no database.
 const nextConfig: NextConfig = {
+  output: "export",
+  trailingSlash: true,
+  images: { unoptimized: true },
   devIndicators: false,
-  ...(isStatic && {
-    output: "export",
-    trailingSlash: true,
-    images: { unoptimized: true },
-  }),
-  serverExternalPackages: [
-    "@prisma/client",
-    "@prisma/adapter-libsql",
-    "@libsql/client",
-    "libsql",
-  ],
 };
 
 export default nextConfig;

@@ -2,57 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
-import Book from './Book';   // ← Your modal component
+import Book from './Book';
+import { HERO_SLIDES } from '@/lib/site';
 
-// ------------------------------------------------------------------
-// Fallback slides – used only if no active slides are published yet
-// ------------------------------------------------------------------
-const FALLBACK_SLIDES: HeroSlideData[] = [
-  {
-    id: "fallback-1",
-    label: "Ironing Perfection, Delivered Fast",
-    body: "Achieve that crisp, flawless look without lifting a finger. Pure convenience starts here.",
-    ctaText: "Schedule Ironing Pickup",
-    ctaLink: null,
-    imageUrl: '/iron.jpeg',
-  },
-  {
-    id: "fallback-2",
-    label: "Washing Made Wonderful & Easy",
-    body: "Experience deep, eco-friendly cleaning with effortless same-day pickup and delivery.",
-    ctaText: "Start Washing Order",
-    ctaLink: null,
-    imageUrl: '/wash.jpeg',
-  },
-  {
-    id: "fallback-3",
-    label: "Experience Unparalleled Convenience",
-    body: "Our premium laundry services ensure a spotless finish and absolute peace of mind, every time.",
-    ctaText: "Book Your Service Now",
-    ctaLink: null,
-    imageUrl: '/iron1.jpeg',
-  },
-  {
-    id: "fallback-4",
-    label: "Care Beyond Compare for Fabrics",
-    body: "From delicates to heavy linens, trust our experts for gentle treatment and sparkling results.",
-    ctaText: "See All Pricing",
-    ctaLink: "/#pricing",
-    imageUrl: '/iron.jpeg',
-  },
-];
-
-export interface HeroSlideData {
-  id: string;
-  label: string;
-  body: string;
-  ctaText: string;
-  ctaLink: string | null;
-  imageUrl: string;
-}
-
-export default function Hero({ slides }: { slides?: HeroSlideData[] }) {
-  const herox = slides && slides.length > 0 ? slides : FALLBACK_SLIDES;
+export default function Hero() {
+  const herox = HERO_SLIDES;
 
   // ----------------------------------------------------------------
   // State
@@ -102,7 +56,7 @@ export default function Hero({ slides }: { slides?: HeroSlideData[] }) {
           {herox.map((slide, index) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              key={slide.id}
+              key={slide.label}
               src={slide.imageUrl}
               alt={slide.label}
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out ${

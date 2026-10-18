@@ -1,6 +1,6 @@
-const CACHE_NAME = "royal-laundry-v1";
+const CACHE_NAME = "royal-laundry-v2";
 const OFFLINE_URL = "/";
-const EXCLUDED_PREFIXES = ["/admin", "/api", "/login"];
+const EXCLUDED_PREFIXES = [];
 
 self.addEventListener("install", () => {
   self.skipWaiting();
