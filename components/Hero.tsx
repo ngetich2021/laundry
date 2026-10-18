@@ -72,7 +72,7 @@ export default function Hero() {
 
           {/* Headline */}
           <div className="overflow-hidden mb-4 py-1">
-            <h1 className={`font-extrabold text-white text-5xl sm:text-6xl md:text-7xl lg:text-7xl leading-tight drop-shadow-lg ${contentAnimationClass}`}>
+            <h1 className={`font-extrabold text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight drop-shadow-lg ${contentAnimationClass}`}>
               {currentHero.label}
             </h1>
           </div>
@@ -87,7 +87,7 @@ export default function Hero() {
             onClick={handleCtaClick}
             className={`group inline-flex items-center gap-3
               bg-gradient-to-r from-sky-500 to-blue-600 text-white
-              font-bold text-lg px-8 py-4 rounded-full shadow-2xl
+              font-bold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-full shadow-2xl
               hover:from-sky-600 hover:to-blue-700
               transform hover:scale-105 hover:-translate-y-1
               transition-all duration-300 ease-out
