@@ -52,7 +52,7 @@ export default async function SaleInvoicePage({ params }: { params: Promise<{ id
             <div className="text-sm text-muted-foreground">
               <p className="font-semibold text-foreground">Royal Laundry & Dry Cleaners</p>
               <p>Eldoret, Kenya</p>
-              <p>0790212210 &middot; royallaundry140@gmail.com</p>
+              <p>0790212210 &middot; info@drycleaners.co.ke</p>
             </div>
           </div>
           <div className="text-right">

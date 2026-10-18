@@ -91,16 +91,26 @@ export default function Footer() {
           <div className="mt-6 space-y-3 text-sm">
             <p className="flex items-center gap-2">
               <FaPhone className="text-yellow-500" />
-              <a href="tel:+254700000000" className="hover:text-yellow-400">0790212210</a>
+              <a href="tel:+254790212210" className="hover:text-yellow-400">0790212210</a>
             </p>
             <p className="flex items-center gap-2">
               <FaEnvelope className="text-yellow-500" />
               <a 
-                href="mailto:royallaundry140@gmail.com" 
+                href="mailto:info@drycleaners.co.ke" 
                 className="hover:text-yellow-400 break-all"
               >
-                royallaundry140@gmail.com
+                info@drycleaners.co.ke
               </a>
+            </p>
+            <p className="flex items-center gap-2">
+              <FaEnvelope className="text-yellow-500" />
+              <a
+                href="mailto:order@drycleaners.co.ke"
+                className="hover:text-yellow-400 break-all"
+              >
+                order@drycleaners.co.ke
+              </a>
+              <span className="text-xs opacity-70">(orders &amp; pickups)</span>
             </p>
           </div>
         </div>
