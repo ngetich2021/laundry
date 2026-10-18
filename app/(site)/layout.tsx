@@ -1,7 +1,7 @@
 // app/(site)/layout.tsx
 import Nav from "@/components/Nav";
 import Sticky from "@/components/Sticky";
-import VisitTracker from "@/components/site/visit-tracker";
+import { LocalBusinessJsonLd } from "@/components/site/structured-data";
 
 export default function SiteLayout({
   children,
@@ -10,7 +10,7 @@ export default function SiteLayout({
 }>) {
   return (
     <div>
-      <VisitTracker />
+      <LocalBusinessJsonLd />
       <Nav />
       {children}
       <Sticky />

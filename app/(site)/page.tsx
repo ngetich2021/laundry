@@ -4,20 +4,22 @@ import Hero from "@/components/Hero";
 import Pricing from "@/components/Pricing";
 import Work from "@/components/Work";
 import Working from "@/components/Working";
-import { prisma } from "@/lib/prisma";
+import { pageMetadata } from "@/lib/seo";
+import { SITE } from "@/lib/site";
 
-export const revalidate = 5;
+export const metadata = pageMetadata({
+  title: `${SITE.name} | Laundry & Dry Cleaning in Eldoret`,
+  description: SITE.description,
+  path: "/",
+  image: "/og/og-home.jpg",
+  absoluteTitle: true,
+});
 
-export default async function Home() {
-  const [slides, categories] = await Promise.all([
-    prisma.heroSlide.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
-    prisma.serviceCategory.findMany({ orderBy: { sortOrder: "asc" }, include: { items: { orderBy: { sortOrder: "asc" } } } }),
-  ]);
-
+export default function Home() {
   return (
     <main>
       <section id="home">
-        <Hero slides={slides} />
+        <Hero />
       </section>
 
       <section id="work">
@@ -29,7 +31,7 @@ export default async function Home() {
       </section>
 
       <section id="pricing">
-        <Pricing categories={categories} />
+        <Pricing />
       </section>
 
       <section id="footer">
