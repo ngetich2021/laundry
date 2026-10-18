@@ -81,10 +81,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-KE">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en-KE" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="font-sans antialiased overflow-x-clip">
         {children}
         <PwaRegister />
       </body>

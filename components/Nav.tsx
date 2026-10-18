@@ -34,14 +34,14 @@ export default function Nav() {
 
   return (
     <header className="sticky top-0 z-[60] border-b border-slate-200/70 bg-white">
-      <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8" aria-label="Main">
+      <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-3 px-4 sm:gap-6 sm:px-6 lg:px-8" aria-label="Main">
         {/* Brand */}
-        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label={`${SITE.name} home`}>
-          <Image src="/icons/royal-icon.png" alt="" width={44} height={44} priority className="size-11" />
-          <span className="leading-tight">
-            <span className="block text-lg font-extrabold tracking-tight text-[#002C65]">Royal Laundry</span>
-            <span className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-[#2EA3F2]">
-              &amp; Dry Cleaners · Eldoret
+        <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3" aria-label={`${SITE.name} home`}>
+          <Image src="/icons/royal-icon.png" alt="" width={44} height={44} priority className="size-10 shrink-0 sm:size-11" />
+          <span className="min-w-0 leading-tight">
+            <span className="block truncate text-base font-extrabold tracking-tight text-[#002C65] sm:text-lg">Royal Laundry</span>
+            <span className="block truncate text-[10px] font-semibold uppercase tracking-[0.12em] text-[#2EA3F2] sm:text-[11px]">
+              &amp; Dry Cleaners<span className="hidden min-[400px]:inline"> · Eldoret</span>
             </span>
           </span>
         </Link>
@@ -80,10 +80,10 @@ export default function Nav() {
         </a>
 
         {/* Mobile: call icon + menu button */}
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex shrink-0 items-center gap-2 lg:hidden">
           <a
             href={`tel:${SITE.phoneIntl}`}
-            className="inline-flex size-11 items-center justify-center rounded-full bg-[#002C65] text-white"
+            className="inline-flex size-10 items-center justify-center rounded-full bg-[#002C65] text-white sm:size-11"
             aria-label={`Call ${SITE.phoneDisplay}`}
           >
             <Phone className="size-5" />
@@ -91,7 +91,7 @@ export default function Nav() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex size-11 items-center justify-center rounded-full border border-slate-200 text-[#002C65] transition hover:bg-slate-100"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-slate-200 text-[#002C65] transition hover:bg-slate-100 sm:size-11"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
