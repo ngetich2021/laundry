@@ -9,9 +9,9 @@ import { SITE } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "About Us – Laundry on Eldoret–Iten Road",
+  title: "About Us: Rock Centre, Iten Road",
   description:
-    "Royal Laundry & Dry Cleaners is an Eldoret laundry on Iten Road serving homes and businesses with washing, ironing, dry cleaning and free pickup.",
+    "A local Eldoret team washing, ironing and caring for clothes for homes and businesses. Trusted by over 2,800 customers, with free pickup.",
   path: "/about/",
   image: "/og/og-home.jpg",
 });

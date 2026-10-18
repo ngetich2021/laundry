@@ -9,9 +9,9 @@ import { SITE, whatsappLink } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Contact Us – Call, WhatsApp or Email",
+  title: "Contact: Call or WhatsApp 0790 212 210",
   description:
-    "Contact Royal Laundry & Dry Cleaners in Eldoret. Call or WhatsApp 0790 212 210, or email info@drycleaners.co.ke. Open Mon–Sat, 8am–5pm.",
+    "Book a pickup or ask a question. Email info@ or order@drycleaners.co.ke, or visit us at Rock Centre, Iten Road. Mon–Sat, 8am–5pm.",
   path: "/contact/",
   image: "/og/og-contact.jpg",
 });

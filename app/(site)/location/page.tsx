@@ -8,9 +8,9 @@ import { SITE } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Find Us – Laundry on Eldoret–Iten Road",
+  title: "Find Us: Rock Centre, Eldoret–Iten Road",
   description:
-    "Royal Laundry is at Rock Centre on Eldoret–Iten Road, next to Palmcare Sinai Hospital, opposite Zebra Ways Plaza. Open Mon–Sat, 8am–5pm.",
+    "Next to Palmcare Sinai Hospital, opposite Zebra Ways Plaza. Open Monday to Saturday, 8am to 5pm. Directions and map inside.",
   path: "/location/",
   image: "/og/og-location.jpg",
 });

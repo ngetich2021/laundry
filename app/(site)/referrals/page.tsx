@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Refer a Friend & Earn KES 150",
   description:
-    "Refer friends to Royal Laundry in Eldoret and earn KES 150 for every 10 kg of laundry they wash. Ask at our front desk or WhatsApp us to check your rewards.",
+    "Earn KES 150 for every 10 kg your friends wash with us. Ask at the front desk at Rock Centre, Iten Road, or WhatsApp 0790 212 210.",
   path: "/referrals/",
   image: "/og/og-referrals.jpg",
 });
