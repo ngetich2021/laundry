@@ -9,9 +9,9 @@ import { SERVICES } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Laundry & Dry Cleaning Services in Eldoret",
+  title: "Services: Washing, Ironing, Duvets & More",
   description:
-    "Wash & fold, ironing, dry cleaning, duvet and curtain cleaning, office & uniform laundry, plus free pickup and delivery in Eldoret.",
+    "Wash & fold, ironing, suits and gowns, duvets, curtains and business uniforms. Free collection across Eldoret. Call or WhatsApp 0790 212 210.",
   path: "/services/",
   image: "/og/og-services.jpg",
 });

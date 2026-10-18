@@ -8,8 +8,9 @@ import { pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: `${SITE.name} | Laundry & Dry Cleaning in Eldoret`,
-  description: SITE.description,
+  title: "Royal Laundry & Dry Cleaners, Eldoret",
+  description:
+    "Wash, iron and fold with free pickup and delivery. Rock Centre on Eldoret–Iten Road, next to Palmcare Sinai Hospital. From KES 100/kg. Call 0790 212 210.",
   path: "/",
   image: "/og/og-home.jpg",
   absoluteTitle: true,

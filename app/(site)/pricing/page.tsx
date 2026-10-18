@@ -7,9 +7,9 @@ import { BreadcrumbJsonLd } from "@/components/site/structured-data";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Laundry Prices in Eldoret – From KES 100 per kg",
+  title: "Prices: KES 100/kg, Duvets from KES 400",
   description:
-    "Royal Laundry prices: bulk laundry KES 100 per kg, duvets from KES 400 (4x6), 5x6 KES 500, 6x6 KES 600. Free pickup and delivery in Eldoret.",
+    "Bulk washing KES 100 per kg with 1 kg free per 10 kg. Duvets 4x6 KES 400, 5x6 KES 500, 6x6 KES 600. Free pickup in Eldoret.",
   path: "/pricing/",
   image: "/og/og-pricing.jpg",
 });

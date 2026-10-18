@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} | Laundry & Dry Cleaning in Eldoret`,
+    default: `${SITE.name}, Eldoret`,
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
@@ -54,13 +54,13 @@ export const metadata: Metadata = {
     locale: "en_KE",
     siteName: SITE.name,
     url: "/",
-    title: `${SITE.name} | Laundry & Dry Cleaning in Eldoret`,
+    title: `${SITE.name}, Eldoret`,
     description: SITE.description,
     images: [{ url: "/og/og-home.jpg", width: 1200, height: 630, alt: SITE.name }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} | Laundry & Dry Cleaning in Eldoret`,
+    title: `${SITE.name}, Eldoret`,
     description: SITE.description,
     images: ["/og/og-home.jpg"],
   },

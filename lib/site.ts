@@ -9,7 +9,7 @@ export const SITE = {
   url: "https://drycleaners.co.ke",
   tagline: "Laundry? Let's make it ROYAL.",
   description:
-    "Laundry and dry cleaning in Eldoret. We wash, dry, iron and fold, with free pickup and delivery. Bulk laundry from KES 100 per kg, duvets from KES 400.",
+    "Washing, ironing, duvets, suits and curtains at Rock Centre, Eldoret–Iten Road, next to Palmcare Sinai Hospital. Free pickup and delivery. From KES 100/kg.",
 
   phone: "0790212210",
   phoneDisplay: "0790 212 210",
@@ -77,9 +77,9 @@ export const SERVICES: Service[] = [
   {
     slug: "wash-and-fold",
     name: "Wash & Fold",
-    title: "Wash & Fold Laundry in Eldoret",
+    title: "Wash & Fold from KES 100/kg, Eldoret",
     description:
-      "Wash and fold laundry in Eldoret from KES 100 per kg. Eco-friendly deep cleaning with free pickup and delivery from Royal Laundry.",
+      "Sorted, washed, dried and neatly folded. 1 kg free for every 10 kg. Drop off at Rock Centre, Iten Road, or call 0790 212 210 for free pickup.",
     headline: "Washing made wonderful & easy",
     intro:
       "Hand us your everyday laundry and get it back clean, dry and neatly folded. We wash by the kilo, so you only pay for what you bring.",
@@ -99,9 +99,9 @@ export const SERVICES: Service[] = [
   {
     slug: "ironing",
     name: "Ironing & Pressing",
-    title: "Ironing & Pressing Service in Eldoret",
+    title: "Ironing & Pressing, Eldoret",
     description:
-      "Professional ironing and pressing in Eldoret. Crisp shirts, trousers and uniforms, neatly folded or hung, with free pickup and delivery.",
+      "Crisp shirts, trousers, dresses and school uniforms, ready to wear. Free pickup from your door. Call or WhatsApp 0790 212 210.",
     headline: "Ironing perfection, delivered fast",
     intro:
       "Get that crisp, flawless look without lifting a finger. We press shirts, trousers, dresses and uniforms so they are ready to wear.",
@@ -117,9 +117,9 @@ export const SERVICES: Service[] = [
   {
     slug: "dry-cleaning",
     name: "Dry Cleaning",
-    title: "Dry Cleaning in Eldoret – Suits, Gowns & Delicates",
+    title: "Suits, Gowns & Coats Cleaning, Eldoret",
     description:
-      "Dry cleaning in Eldoret for suits, gowns and delicate fabrics. Gentle, expert care with free pickup and delivery from Royal Laundry.",
+      "Expert care for suits, wedding and graduation gowns, blazers and delicate fabrics. Rock Centre, Eldoret–Iten Road. Call 0790 212 210.",
     headline: "Suits, gowns & delicate fabrics",
     intro:
       "Some clothes need more than a washing machine. We dry clean suits, gowns, coats and delicate fabrics with gentle, expert care.",
@@ -135,9 +135,9 @@ export const SERVICES: Service[] = [
   {
     slug: "duvet-cleaning",
     name: "Duvet & Bedding Cleaning",
-    title: "Duvet Cleaning in Eldoret from KES 400",
+    title: "Duvet Cleaning from KES 400, Eldoret",
     description:
-      "Duvet cleaning in Eldoret: 4x6 KES 400, 5x6 KES 500, 6x6 KES 600. Blankets and sheets too, with free pickup and delivery.",
+      "Duvets 4x6 KES 400, 5x6 KES 500, 6x6 KES 600, plus blankets and sheets. Washed, fully dried and folded, with free pickup. Call 0790 212 210.",
     headline: "Fresh duvets, fair prices",
     intro:
       "Duvets and blankets are too big for most home machines. We wash, dry and fold them properly so they come back fresh, fluffy and clean.",
@@ -158,9 +158,9 @@ export const SERVICES: Service[] = [
   {
     slug: "curtain-cleaning",
     name: "Curtain Cleaning",
-    title: "Curtain Cleaning in Eldoret",
+    title: "Curtain Cleaning, Eldoret",
     description:
-      "Curtain cleaning in Eldoret. We remove dust and odours and bring back the colour of your curtains, with free pickup and delivery.",
+      "Home and office curtains, sheers and blackouts freed of dust and odours, colour restored. Free collection and delivery. WhatsApp 0790 212 210.",
     headline: "Bright, fresh curtains again",
     intro:
       "Curtains collect dust, smoke and odours over time. We wash them carefully to bring back their colour and freshness.",
@@ -176,9 +176,9 @@ export const SERVICES: Service[] = [
   {
     slug: "office-and-uniforms",
     name: "Office & Uniform Laundry",
-    title: "Office, Uniform & Commercial Laundry in Eldoret",
+    title: "Uniforms & Linen for Businesses, Eldoret",
     description:
-      "Commercial laundry in Eldoret for offices, schools, hotels and salons. Uniforms, linen and towels on a regular schedule.",
+      "Scheduled collection for offices, schools, hotels, salons and clinics: uniforms, linen and towels. Quotes from sales@drycleaners.co.ke.",
     headline: "Office & uniform laundry, sorted",
     intro:
       "We serve businesses as well as homes. Offices, schools, hotels, salons and clinics rely on us for clean uniforms, linen and towels.",
@@ -194,9 +194,9 @@ export const SERVICES: Service[] = [
   {
     slug: "pickup-and-delivery",
     name: "Pickup & Delivery",
-    title: "Free Laundry Pickup & Delivery in Eldoret",
+    title: "Free Pickup & Delivery across Eldoret",
     description:
-      "Free laundry pickup and delivery in Eldoret. Book by phone or WhatsApp, we collect from your door and deliver fresh. Same-day pickup available.",
+      "Call or WhatsApp 0790 212 210 and we collect from your door, clean, and bring everything back fresh. Same-day pickup, Mon–Sat 8am–5pm.",
     headline: "We collect. We deliver.",
     intro:
       "No need to leave home. Book a pickup and we collect your laundry from your doorstep, clean it, and bring it back fresh and folded.",
