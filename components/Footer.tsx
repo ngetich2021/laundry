@@ -97,7 +97,7 @@ export default function Footer() {
               <FaEnvelope className="text-yellow-500" />
               <a 
                 href="mailto:info@drycleaners.co.ke" 
-                className="hover:text-yellow-400 break-all"
+                className="hover:text-yellow-400 whitespace-nowrap text-sm"
               >
                 info@drycleaners.co.ke
               </a>
@@ -106,11 +106,10 @@ export default function Footer() {
               <FaEnvelope className="text-yellow-500" />
               <a
                 href="mailto:order@drycleaners.co.ke"
-                className="hover:text-yellow-400 break-all"
+                className="hover:text-yellow-400 whitespace-nowrap text-sm"
               >
                 order@drycleaners.co.ke
               </a>
-              <span className="text-xs opacity-70">(orders &amp; pickups)</span>
             </p>
           </div>
         </div>
