@@ -8,9 +8,10 @@ import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
 import { X } from 'lucide-react';
 
 // === EMAILJS CONFIG ===
-const EMAILJS_SERVICE_ID = 'service_wun6ddi';
-const EMAILJS_TEMPLATE_ID = 'template_j4f5ulv';
-const EMAILJS_USER_ID = 'Y7vLoMpldI25K2O9k';
+const EMAILJS_SERVICE_ID = 'service_150kr1b';
+const EMAILJS_TEMPLATE_ID = 'template_qx3k3fq';
+const EMAILJS_USER_ID = 'mmIHd8BLuXBVGcIC7';
+const BOOKING_RECIPIENT = 'order@drycleaners.co.ke';
 // ======================
 
 const formSchema = z.object({
@@ -57,6 +58,8 @@ export default function Book({ isOpen, onClose }: BookProps) {
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
+          to_email: BOOKING_RECIPIENT,
+          subject: `New Booking - ${data.name}`,
           from_name: data.name,
           reply_to: data.email,
           phone_number: data.phone,

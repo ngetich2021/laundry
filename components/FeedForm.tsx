@@ -8,9 +8,10 @@ import emailjs from '@emailjs/browser';
 import { X, Star } from 'lucide-react';
 
 // === EMAILJS CONFIG ===
-const EMAILJS_SERVICE_ID = 'service_wun6ddi';
-const EMAILJS_TEMPLATE_ID = 'template_j4f5ulv';
-const EMAILJS_PUBLIC_KEY = 'Y7vLoMpldI25K2O9k';
+const EMAILJS_SERVICE_ID = 'service_150kr1b';
+const EMAILJS_TEMPLATE_ID = 'template_qx3k3fq';
+const EMAILJS_PUBLIC_KEY = 'mmIHd8BLuXBVGcIC7';
+const FEEDBACK_RECIPIENT = 'info@drycleaners.co.ke';
 // ======================
 
 // Zod Schema
@@ -63,13 +64,14 @@ export default function FeedbackForm({ isOpen, onClose }: FeedbackFormProps) {
 
     try {
       const templateParams = {
+        to_email: FEEDBACK_RECIPIENT,
         from_name: data.name?.trim() || 'Anonymous',
         reply_to: data.email?.trim() || 'no-reply@feedback.com',
         phone_number: data.phone?.trim() || 'Not provided',
         rating: data.rating.toString(),
-        rating_stars: '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating),
+        rating_stars: `${data.rating} out of 5`,
         message: data.message,
-        subject: `New Feedback (${data.rating}⭐) - Royal Laundry`,
+        subject: `Customer feedback from ${data.name?.trim() || 'a customer'} - rating ${data.rating}/5`,
       };
 
       await emailjs.send(
