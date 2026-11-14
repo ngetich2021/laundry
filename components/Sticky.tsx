@@ -1,81 +1,46 @@
 'use client';
 
-import React, { useState } from 'react';
-import { IoCall } from 'react-icons/io5';
-import { RiWhatsappFill } from "react-icons/ri";
-import { CiMail } from "react-icons/ci";
-import Book from './Book'; // Your modal component
+import { useState } from 'react';
+import { Mail } from 'lucide-react';
+import { RiWhatsappFill } from 'react-icons/ri';
+import Book from './Book';
+import { whatsappLink } from '@/lib/site';
 
+/**
+ * Two floating buttons:
+ *  - bottom left:  email / booking form
+ *  - bottom right: WhatsApp chat
+ * (Calling is in the top menu.)
+ */
 export default function Sticky() {
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-
-  const iconBaseClasses = "p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl cursor-pointer";
-  const iconSize = 40;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
-      <main>
-        {/* Primary Floating WhatsApp Icon (Bottom Left) */}
-        <div className='fixed left-4 bottom-8 z-50'>
-          <a 
-            href="https://wa.me/254790212210" // Replace with your number
-            target="_blank" 
-            rel="noopener noreferrer"
-            title="Chat with us on WhatsApp"
-          >
-            <RiWhatsappFill 
-              className={`${iconBaseClasses} text-white bg-green-500 hover:bg-green-600 animate-pulse`} 
-              size={64}
-            />
-          </a>
-        </div>
+      {/* Email / booking form — bottom left */}
+      <button
+        type="button"
+        onClick={() => setIsModalOpen(true)}
+        className="fixed bottom-5 left-5 z-50 inline-flex size-14 items-center justify-center rounded-full bg-[#002C65] text-white shadow-lg transition hover:scale-105 hover:bg-[#003d8a] sm:bottom-6 sm:left-6"
+        aria-label="Email us to book a pickup"
+        title="Email us / book a pickup"
+      >
+        <Mail className="size-6" />
+      </button>
 
-        {/* Secondary Contact Stack (Top Right) */}
-        <div className='fixed right-0 top-1/2 transform -translate-y-1/2 z-50 flex flex-col space-y-3 p-2 bg-white/90 backdrop-blur-sm rounded-l-lg shadow-2xl border-l border-t border-b border-gray-200'>
-          
-          {/* Email Icon – Opens Book Modal */}
-          <button
-            onClick={() => setIsModalOpen(true)}
-            title="Book via Email Form"
-            className="flex items-center justify-center"
-          >
-            <CiMail 
-              className={`${iconBaseClasses} text-gray-700 hover:text-blue-600 bg-gray-100 hover:bg-blue-50`} 
-              size={iconSize} 
-            />
-          </button>
+      {/* WhatsApp — bottom right */}
+      <a
+        href={whatsappLink("Hi Royal Laundry! I'd like to book a pickup.")}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-5 right-5 z-50 inline-flex size-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg transition hover:scale-105 hover:bg-green-600 sm:bottom-6 sm:right-6"
+        aria-label="Chat with us on WhatsApp"
+        title="Chat with us on WhatsApp"
+      >
+        <RiWhatsappFill className="size-8" />
+      </a>
 
-          {/* WhatsApp Icon */}
-          <a 
-            href="https://wa.me/254790212210" // Replace with your number
-            target="_blank" 
-            rel="noopener noreferrer"
-            title="WhatsApp Chat"
-          >
-            <RiWhatsappFill 
-              className={`${iconBaseClasses} text-green-500 hover:text-green-600 bg-green-50 hover:bg-green-100`} 
-              size={iconSize}
-            />
-          </a>
-
-          {/* Phone Call Icon */}
-          <a 
-            href="tel:+254790212210" // Replace with your number
-            title="Call us"
-          >
-            <IoCall 
-              className={`${iconBaseClasses} text-indigo-500 hover:text-indigo-600 bg-indigo-50 hover:bg-indigo-100`} 
-              size={iconSize} 
-            />
-          </a>
-        </div>
-      </main>
-
-      {/* Book Modal – Triggered by Email Icon */}
-      <Book
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <Book isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 }
